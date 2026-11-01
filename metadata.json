@@ -1,0 +1,6 @@
+{
+  "name": "LockIn - Study Alarm & Loot Box",
+  "description": "Minimalist Gen Z study companion with 'Are you studying right now?' alarms, anti-doomscroll shields, micro-sprints, and crackable mystery loot box rewards.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
