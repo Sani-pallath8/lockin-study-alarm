@@ -444,6 +444,7 @@ export default function App() {
 
   const activeTask = tasks.find((t) => t.id === activeTaskId);
   const activeSessionElapsedMinutes = isRunning ? Math.floor(((focusDurationMinutes * 60) - timeLeft) / 60) : 0;
+  const secondsUntilNextAlarm = Math.max(0, (settings.checkInIntervalMinutes * 60) - secondsSinceLastCheckIn);
 
   return (
     <div className="min-h-screen bg-neutral-950 text-neutral-100 flex flex-col font-sans selection:bg-emerald-500/20 selection:text-emerald-300">
@@ -475,6 +476,12 @@ export default function App() {
           onOpenSettings={() => setIsSettingsOpen(true)}
           onTriggerCheckIn={triggerCheckInAlarm}
           activeTaskTitle={activeTask?.title}
+          alarmIntervalMinutes={settings.checkInIntervalMinutes}
+          onSelectAlarmInterval={(mins) => {
+            setSettings((prev) => ({ ...prev, checkInIntervalMinutes: mins }));
+            setSecondsSinceLastCheckIn(0);
+          }}
+          secondsUntilNextAlarm={secondsUntilNextAlarm}
         />
       )}
 
@@ -523,6 +530,17 @@ export default function App() {
               onSelectPreset={handleSelectPreset}
               onFinishSprintEarly={handleFinishSprintEarly}
               activeTaskTitle={activeTask?.title}
+              alarmIntervalMinutes={settings.checkInIntervalMinutes}
+              onSelectAlarmInterval={(mins) => {
+                setSettings((prev) => ({ ...prev, checkInIntervalMinutes: mins }));
+                setSecondsSinceLastCheckIn(0);
+              }}
+              isAlarmEnabled={settings.enableCheckInAlarms}
+              onToggleAlarmEnabled={() =>
+                setSettings((prev) => ({ ...prev, enableCheckInAlarms: !prev.enableCheckInAlarms }))
+              }
+              secondsUntilNextAlarm={secondsUntilNextAlarm}
+              onTriggerTestAlarm={triggerCheckInAlarm}
             />
 
             {/* Ambient Noise Bar */}
